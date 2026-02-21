@@ -72,11 +72,9 @@ ellipse(0,0,120,130);
 pop();
 fill(255, 100, 0);
 triangle(-5, 40, 5, 40, 0, 60);
-speed =  20;
 }
 else {
 shield = false;
-speed = 10;
 }
 }
 
@@ -88,6 +86,7 @@ circle(asteriodX[i],asteriodY[i],60);
 if(asteriodY[i] > height){
 asteriodY[i] = random(-height/2, 0);
 asteriodX[i] = random(0,width);
+speed = speed + 0.1;
 }
 else{
 asteriodY[i] = asteriodY[i] + speed;
@@ -137,6 +136,7 @@ text("Press 'Enter' to play again", width/2, height*0.95);
 pop();
 score = 0;
 shieldPower = 100;
+speed = 10;
 noLoop();
 }
 
