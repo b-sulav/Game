@@ -1,19 +1,28 @@
 //global variable declaration
 float[] asteriodX;
 float[] asteriodY;
-float speed = 10;
+float[] starX;
+float[] starY;
+float speed = 12;
 int score = 0;
 boolean shield;
 int shieldPower = 100;
 boolean shieldUsable = true;
 
 void setup(){
+size(100,100);
 fullScreen();
 asteriodX = new float[8];
 asteriodY = new float[8];
+starX = new float[200];
+starY = new float[200];
 for(int i=0; i < asteriodX.length; i++){
 asteriodX[i] = random(0,width);
 asteriodY[i] = random(-height,0);
+}
+for(int i=0; i < starX.length; i++){
+starX[i] = random(0,width);
+starY[i] = random(0,height);
 }
 }
 
@@ -34,16 +43,23 @@ score = score + 1;
 
 //function to create background stars
 void stars() {
-for (int i = 0; i < (height+width)/50; i++) {
+for (int i = 0; i < starX.length; i++) {
 stroke(255);
-point(random(0,width), random(0,height));
+point(starX[i],starY[i]);
+if(starY[i] > height){
+starY[i] = random(-height/2,0);
+starX[i] = random(0,width);
+}
+else{
+starY[i] = starY[i] + speed/10;
+}
 }
 }
 
 //function to create spaceship
 void spaceShip(){
 if(keyPressed){
-  translate(mouseX,height-height/10);
+translate(mouseX,height-height/10);
 }
 else{
 translate(mouseX, height-height/10);
@@ -86,7 +102,7 @@ circle(asteriodX[i],asteriodY[i],60);
 if(asteriodY[i] > height){
 asteriodY[i] = random(-height/2, 0);
 asteriodX[i] = random(0,width);
-speed = speed + 0.1;
+speed = speed + 0.001;
 }
 else{
 asteriodY[i] = asteriodY[i] + speed;
@@ -99,7 +115,7 @@ void collisionCheck(){
 for(int i=0; i < asteriodX.length; i++){
 float distance = dist(mouseX, height-height/10, asteriodX[i], asteriodY[i]);
 if( (distance < 62) && (shield == false)){
-gameOver();
+//gameover();//
 }
 }
 }
