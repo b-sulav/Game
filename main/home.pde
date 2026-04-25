@@ -1,51 +1,66 @@
-//function to create home page
-void home(){
-background(0);
-mute();
-rectMode(CENTER);
-textAlign(CENTER,CENTER);
-push();
-fill(255);
-textSize(width*0.08);
-text("Astro-Dodge",width*0.5,height*0.2);
-pop();
-push();
-rect(width*0.5,height*0.50,width*0.25,height*0.12);
-fill(0);
-textSize(height*0.05);
-text("Play",width*0.5,height*0.50);
-fill(255);
-rect(width*0.5,height*0.64,width*0.25,height*0.12);
-fill(0);
-text("Settings",width*0.5,height*0.64);
-fill(255);
-rect(width*0.5,height*0.78,width*0.25,height*0.12);
-fill(0);
-text("Exit",width*0.5,height*0.78);
-fill(255);
-pop();
-}
+void home() {
+  background(8, 8, 15);
+  stars();
 
-void mousePressed(){
-if(mouseX>width-70&&mouseX<width-10&&mouseY>height-50&&mouseY<height-10){
-toggleMute();
-}
-if(!play){
-if(mouseX>width*0.375&&mouseX<width*0.625&&mouseY>height*0.44&&mouseY<height*0.56){
-click(0);
-}
-if(mouseX>width*0.375&&mouseX<width*0.625&&mouseY>height*0.58&&mouseY<height*0.70){
-click(1);
-}
-if(mouseX>width*0.375&&mouseX<width*0.625&&mouseY>height*0.72&&mouseY<height*0.84){
-click(2);
-}
-}
-}
+  textAlign(CENTER, CENTER);
+  float tagX = width * 0.5;
+  float tagY = height * 0.35;
+  
+  float pulse = sin(frameCount * 0.02) * 0.5;
+  for (int g = 4; g > 0; g--) {
+    if (accent) fill(80, 100, 255, 10 - g * 2);
+    else fill(255, 80, 80, 10 - g * 2);
+    textSize(width * 0.08 + g * 3);
+    text("ASTRO-DODGE", tagX, tagY + g);
+  }
 
-void click(int id){
-clicked=true;
-if(id==0)play=true;
-if(id==1)background(0,255,0);
-if(id==2)exit();
+  // Main Title
+  textSize(width * 0.08 + pulse);
+  fill(255);
+  text("ASTRO-DODGE", tagX, tagY);
+
+  // Subtitle
+  textSize(width * 0.015);
+  if (accent) fill(150, 180, 255, 200);
+  else fill(255, 150, 150, 200);
+  text("Dodge the Asteroids and Survive!", tagX, tagY + height * 0.08);
+
+  cursor();
+  String[] labels  = { "START MISSION", "SETTINGS", "EXIT SECTOR" };
+  float bW = width * 0.25;
+  float bH = height * 0.08;
+  float bX = width * 0.5;
+  float bStartY = height * 0.60;
+  float bGap = bH + 20;
+
+  for (int i = 0; i < 3; i++) {
+    float by = bStartY + i * bGap;
+    boolean hov = abs(mouseX - bX) < bW/2 && abs(mouseY - by) < bH/2;
+
+    push();
+    rectMode(CENTER);
+
+    // Button body
+    fill(hov ? color(255, 15) : color(255, 5));
+    if (accent) stroke(100, 150, 255, hov ? 200 : 50);
+    else stroke(255, 100, 100, hov ? 200 : 50);
+    strokeWeight(1);
+    rect(bX, by, bW, bH, 5);
+
+    if (hov) {
+      if (accent) fill(100, 150, 255);
+      else fill(255, 100, 100);
+      noStroke();
+      rect(bX - bW/2 + 2, by, 4, bH * 0.5);
+      rect(bX + bW/2 - 2, by, 4, bH * 0.5);
+    }
+
+    // Button text
+    if (accent) fill(hov ? 255 : color(180, 200, 255));
+    else fill(hov ? 255 : color(255, 180, 180));
+    textSize(bH * 0.35);
+    textAlign(CENTER, CENTER);
+    text(labels[i], bX, by - 2);
+    pop();
+  }
 }
